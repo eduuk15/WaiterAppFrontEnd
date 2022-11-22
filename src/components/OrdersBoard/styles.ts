@@ -10,7 +10,7 @@ export const Board = styled.div`
 	justify-content: center;
 	flex: 1;
 
-	header {
+	> header {
 		padding: 8px;
 		font-size: 14px;
 		display: flex;
