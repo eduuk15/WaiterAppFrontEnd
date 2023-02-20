@@ -15,9 +15,25 @@ export const Overlay = styled.div`
 
 export const ModalBody = styled.div`
 	width: 480px;
+	max-height: 90vh;
+	overflow-y: auto;
 	border-radius: 8px;
 	background-color: #fff;
 	padding: 32px;
+
+	&::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	&::-webkit-scrollbar-track {
+  		background-color: #fff;
+		border-radius: 8px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: #2d96ff;
+		border-radius: 8px;
+	}
 
 	header {
 		display: flex;
@@ -36,6 +52,38 @@ export const ModalBody = styled.div`
 	}
 
 	.status-container {
+		margin-top: 32px;
+
+		small {
+			font-size: 14px;
+			opacity: 0.8;
+		}
+
+		div {
+			margin-top: 8px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+	}
+
+	.info-container {
+		margin-top: 32px;
+
+		small {
+			font-size: 14px;
+			opacity: 0.8;
+		}
+
+		div {
+			margin-top: 8px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+	}
+
+	.delivery-container {
 		margin-top: 32px;
 
 		small {
@@ -137,7 +185,7 @@ export const Actions = styled.footer`
 
 	.secondary {
 		padding: 14px 24px;
-		color: #D73035;
+		color: #2d96ff;
 		font-weight: bold;
 		border: 0;
 		background: transparent;

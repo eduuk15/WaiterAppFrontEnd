@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.header`
-	background: #D73035;
+	background: #2d96ff;
 	display: flex;
 	justify-content: center;
 	height: 198px;
@@ -28,5 +28,21 @@ export const Content = styled.div`
 			opacity: 0.9;
 			margin-top: 6px;
 		}
+	}
+
+	.title {
+		font-size: 40px;
+		color: #fff;
+	}
+
+	img {
+			max-width: 200px;
+			max-height: 200px;
+	}
+
+	button {
+		margin-right: 8px;
+		border:none!important;
+    	background-color: transparent!important;
 	}
 `;

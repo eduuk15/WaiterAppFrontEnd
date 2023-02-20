@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import socketIo from 'socket.io-client';
+import { Order } from '../../../../types/Order';
+import { api } from '../../../../utils/api';
 
-import { Order } from '../../types/Order';
-import { api } from '../../utils/api';
 import { OrdersBoard } from '../OrdersBoard';
 import { Container } from './styles';
 
@@ -27,7 +27,6 @@ export function Orders() {
 	}, []);
 
 	const waiting = orders.filter((order) => order.status === 'WAITING');
-	const inProduction = orders.filter((order) => order.status === 'IN_PRODUCTION');
 	const done = orders.filter((order) => order.status === 'DONE');
 
 	function handleCancelOrder(orderId: string) {
@@ -46,13 +45,6 @@ export function Orders() {
 				icon="⌛"
 				title="Fila de espera"
 				orders={waiting}
-				onCancelOrder={handleCancelOrder}
-				onChangeOrderStatus={handleOrderStatusChange}
-			/>
-			<OrdersBoard
-				icon="🧑‍🍳"
-				title="Em preparação"
-				orders={inProduction}
 				onCancelOrder={handleCancelOrder}
 				onChangeOrderStatus={handleOrderStatusChange}
 			/>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import closeIcon from '../../assets/images/close-icon.svg';
-import { Order } from '../../types/Order';
-import { formatCurrency } from '../../utils/formatCurrency';
+import { Order } from '../../../../types/Order';
+import { formatCurrency } from '../../../../utils/formatCurrency';
+import closeIcon from '../../../../assets/images/close-icon.svg';
 
 import { Overlay, ModalBody, OrderDetails, Actions } from './styles';
 
@@ -36,11 +36,17 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 		return total + (product.price * quantity);
 	}, 0);
 
+	const ddd = order.infoPedido.phone.slice(0, 2);
+	const formatedPhone = `${order.infoPedido.phone.slice(2, 7)}-${order.infoPedido.phone.slice(7, 11)}`;
+
+	console.log('entrega', order.entrega);
+
+
 	return (
 		<Overlay>
 			<ModalBody>
 				<header>
-					<strong>Mesa {order.table}</strong>
+					<strong>Pedido</strong>
 					<button type="button" onClick={onClose}>
 						<img src={closeIcon} alt="Ícone de fechar" />
 					</button>
@@ -51,14 +57,36 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 					<div>
 						<span>
 							{order.status === 'WAITING' && '⌛'}
-							{order.status === 'IN_PRODUCTION' && '🧑‍🍳'}
 							{order.status === 'DONE' && '✅'}
 						</span>
 						<strong>
 							{order.status === 'WAITING' && 'Fila de espera'}
-							{order.status === 'IN_PRODUCTION' && 'Em preparação'}
 							{order.status === 'DONE' && 'Pronto!'}
 						</strong>
+					</div>
+				</div>
+
+				<div className="info-container">
+					<small>Informações do cliente</small>
+					<div>
+						<span>🧑</span>
+						<strong>{order.infoPedido.fullName}</strong>
+					</div>
+					<div>
+						<span>📞</span>
+						<strong>({ddd}) {formatedPhone}</strong>
+					</div>
+					<div>
+						<span>📍</span>
+						<strong>{order.infoPedido.address}</strong>
+					</div>
+				</div>
+
+				<div className="delivery-container">
+					<small>Forma de recebimento</small>
+					<div>
+						<span>📦</span>
+						<strong>{order.entrega ? 'Entrega' : 'Retirada'}</strong>
 					</div>
 				</div>
 
@@ -79,6 +107,7 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 
 								<div className="product-details">
 									<strong>{product.name}</strong>
+									<strong>{product.flavor}</strong>
 									<span>{formatCurrency(product.price)}</span>
 								</div>
 							</div>
@@ -95,12 +124,10 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 					{order.status !== 'DONE' && (
 						<button type="button" className="primary" disabled={isLoading} onClick={onChangeOrderStatus}>
 							<span>
-								{order.status === 'WAITING' && '🧑‍🍳'}
-								{order.status === 'IN_PRODUCTION' && '✅'}
+								{order.status === 'WAITING' && '✅'}
 							</span>
 							<strong>
-								{order.status === 'WAITING' && 'Iniciar Produção'}
-								{order.status === 'IN_PRODUCTION' && 'Concluir Pedido'}
+								{order.status === 'WAITING' && 'Concluir Pedido'}
 							</strong>
 						</button>
 					)}
@@ -110,7 +137,8 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 						className="secondary"
 						onClick={onCancelOrder}
 					>
-						Cancelar pedido
+						{order.status === 'WAITING' && 'Cancelar Pedido'}
+						{order.status === 'DONE' && 'Remover'}
 					</button>
 				</Actions>
 			</ModalBody>

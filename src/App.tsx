@@ -1,19 +1,18 @@
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { GlobalStyles } from './styles/GlobalStyles';
-
-import { Header } from './components/Header';
-import { Orders } from './components/Orders';
+import { Pedidos } from './pages/Pedidos';
 
 export function App() {
 
 	return (
 		<>
 			<GlobalStyles />
-			<Header />
-			<Orders />
-			<ToastContainer position='bottom-center' />
+			<Router>
+				<Routes>
+					<Route path='/' element={<Pedidos />}/>
+					<Route path='/pedidos' element={<Pedidos />}/>
+				</Routes>
+			</Router>
 		</>
 	);
 }
