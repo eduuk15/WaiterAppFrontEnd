@@ -8,9 +8,10 @@ interface FilterSidebarProps {
 	sidebarClassName: string;
 	closeSidebar: () => void;
 	openNameFilterModal: () => void;
+	openFlavorFilterModal: () => void;
 }
 
-export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterModal }: FilterSidebarProps) {
+export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterModal, openFlavorFilterModal }: FilterSidebarProps) {
 
 	return (
 		<Container visibility={sidebarClassName}>
@@ -26,8 +27,8 @@ export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterMo
 			</button>
 			<Content>
 				<FilterSidebarItem icon={faSignature} text='Nome' handleOpenFilterModal={openNameFilterModal}/>
-				{/* <FilterSidebarItem icon={faGrinTongueSquint} text='Sabor' />
-				<FilterSidebarItem icon={faDollarSign} text='Preço' />
+				<FilterSidebarItem icon={faGrinTongueSquint} text='Sabor' handleOpenFilterModal={openFlavorFilterModal} />
+				{/* <FilterSidebarItem icon={faDollarSign} text='Preço' />
 				<FilterSidebarItem icon={faCopyright} text='Marca' />
 				<FilterSidebarItem icon={faShapes} text='Categoria' /> */}
 			</Content>
