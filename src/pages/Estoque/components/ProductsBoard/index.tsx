@@ -12,9 +12,10 @@ interface ProductsBoardProps {
 	icon: string;
 	title: string;
 	products: Product[];
+	openSidebar: () => void;
 }
 
-export function ProductsBoard({ icon, title, products }: ProductsBoardProps) {
+export function ProductsBoard({ icon, title, products, openSidebar }: ProductsBoardProps) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState<null | Product>(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +45,7 @@ export function ProductsBoard({ icon, title, products }: ProductsBoardProps) {
 					<span>({products.length})</span>
 				</div>
 				<div>
-					<button type="button" onClick={() => console.log('')}>
+					<button type="button" onClick={openSidebar}>
 						<FontAwesomeIcon
 							icon={faFilter}
 							color="#333"

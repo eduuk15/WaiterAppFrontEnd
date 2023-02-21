@@ -27,9 +27,10 @@ export const Container = styled.div`
 
 	button {
 		margin: 10px 10px;
+		float: left;
 	}
 `;
 
 export const Content = styled.div`
- 	margin-top: 20px;
+ 	margin-top: 80px;
 `;
