@@ -7,9 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface FilterSidebarProps {
 	sidebarClassName: string;
 	closeSidebar: () => void;
+	openNameFilterModal: () => void;
 }
 
-export function FilterSidebar({ sidebarClassName, closeSidebar }: FilterSidebarProps) {
+export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterModal }: FilterSidebarProps) {
 
 	return (
 		<Container visibility={sidebarClassName}>
@@ -24,11 +25,11 @@ export function FilterSidebar({ sidebarClassName, closeSidebar }: FilterSidebarP
 				</div>
 			</button>
 			<Content>
-				<FilterSidebarItem icon={faSignature} text='Nome' />
-				<FilterSidebarItem icon={faGrinTongueSquint} text='Sabor' />
+				<FilterSidebarItem icon={faSignature} text='Nome' handleOpenFilterModal={openNameFilterModal}/>
+				{/* <FilterSidebarItem icon={faGrinTongueSquint} text='Sabor' />
 				<FilterSidebarItem icon={faDollarSign} text='Preço' />
 				<FilterSidebarItem icon={faCopyright} text='Marca' />
-				<FilterSidebarItem icon={faShapes} text='Categoria' />
+				<FilterSidebarItem icon={faShapes} text='Categoria' /> */}
 			</Content>
 		</Container>
 	);

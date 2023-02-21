@@ -1,15 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
 import { Container } from './styles';
 
 interface FilterSidebarItemProps {
 	icon: any;
 	text: string;
+	handleOpenFilterModal: () => void;
 }
 
-export function FilterSidebarItem({ icon, text }: FilterSidebarItemProps) {
+export function FilterSidebarItem({ icon, text, handleOpenFilterModal }: FilterSidebarItemProps) {
 	return (
-		<Container>
+		<Container onClick={handleOpenFilterModal}>
 			<button>
 				<FontAwesomeIcon
 					icon={icon}
