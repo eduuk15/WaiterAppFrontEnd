@@ -13,8 +13,8 @@ export function NameFilterModal({ visible, onClose, onSave }: NameFilterModalPro
 	const [name, setName] = useState('');
 
 	function handleFilter() {
-		setName('');
 		onSave(name);
+		setName('');
 		onClose();
 	}
 
@@ -23,30 +23,22 @@ export function NameFilterModal({ visible, onClose, onSave }: NameFilterModalPro
 	}
 
 	useEffect(() => {
-		function handleKeyDown(event: KeyboardEvent) {
+		function handleKeydown(event: KeyboardEvent) {
 			if (event.key == 'Escape') {
 				onClose();
 			}
-		}
-		document.addEventListener('keydown', handleKeyDown);
-
-		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
-		};
-	}, [onClose]);
-
-	useEffect(() => {
-		function handleKeyDown(event: KeyboardEvent) {
 			if (event.key == 'Enter') {
 				handleFilter();
 			}
 		}
-		document.addEventListener('keydown', handleKeyDown);
+		if (visible) {
+			document.addEventListener('keydown', handleKeydown);
+		}
 
 		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
+			document.removeEventListener('keydown', handleKeydown);
 		};
-	}, [handleFilter]);
+	}, [onClose, handleFilter]);
 
 	if (!visible) {
 		return null;

@@ -10,9 +10,10 @@ interface ProductModalProps {
 	product: Product | null;
 	onClose: () => void;
 	isLoading: boolean;
+	category: string;
 }
 
-export function ProductModal({ visible, product, onClose, isLoading }: ProductModalProps) {
+export function ProductModal({ visible, product, onClose, isLoading, category }: ProductModalProps) {
 	useEffect(() => {
 		function handleKeyDown(event: KeyboardEvent) {
 			if (event.key == 'Escape') {
@@ -42,22 +43,27 @@ export function ProductModal({ visible, product, onClose, isLoading }: ProductMo
 				</header>
 
 				<div className="info-container">
-					<small>Informações do produto</small>
+					<small>Sabor</small>
 					<div>
-						<span>👅</span>
 						<strong>{product.flavor}</strong>
 					</div>
+				</div>
+				<div className="info-container">
+					<small>Preço</small>
 					<div>
-						<span>💸</span>
 						<strong>{formatCurrency(product.price)}</strong>
 					</div>
+				</div>
+				<div className="info-container">
+					<small>Marca</small>
 					<div>
-						<span>🔗</span>
 						<strong>{product.brand}</strong>
 					</div>
+				</div>
+				<div className="info-container">
+					<small>Categoria</small>
 					<div>
-						<span>📋</span>
-						<strong>{product.category}</strong>
+						<strong>{category}</strong>
 					</div>
 				</div>
 

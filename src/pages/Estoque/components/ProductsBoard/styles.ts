@@ -63,3 +63,16 @@ export const ProductsContainer = styled.div`
 		}
 	}
 `;
+
+export const FilterButton = styled.div`
+	color: #FFF;
+	font-weight: 700;
+	border-radius: 8px;
+	background-color: #333;
+	border: 1px solid #333;
+	cursor: pointer;
+	&:hover {
+		color: #2d96ff;
+		background-color: #FFF;
+	}
+`;

@@ -1,25 +1,45 @@
 import { useEffect, useState } from 'react';
 import closeIcon from '../../../../../assets/images/close-icon.svg';
+import { api } from '../../../../../utils/api';
 
 import { Overlay, ModalBody, Actions, Input } from './styles';
+import { Category } from '../../../../../types/Category';
 
-interface FlavorFilterModalProps {
+interface CategoryFilterModalProps {
 	visible: boolean;
 	onClose: () => void;
 	onSave: (name: string) => void;
 }
 
-export function FlavorFilterModal({ visible, onClose, onSave }: FlavorFilterModalProps) {
-	const [name, setName] = useState('');
+export function CategoryFilterModal({ visible, onClose, onSave }: CategoryFilterModalProps) {
+	const [categories, setCategories] = useState<Category[]>([]);
+	const [category, setCategory] = useState('');
+
+	useEffect(() => {
+		api.get('/categories')
+			.then(({ data }) => {
+				setCategories(data);
+			});
+	});
+
+	const options = categories.map((category) => {
+		return {
+			value: category._id,
+			label: `${category.icon} ${category.name}`
+		};
+	});
+
 
 	function handleFilter() {
-		onSave(name);
-		setName('');
+		onSave(category);
+		setCategory('');
 		onClose();
 	}
 
 	function handleChange(event: any) {
-		setName(event.target.value);
+		console.log('value', event.target.value);
+
+		setCategory(event.target.value);
 	}
 
 	useEffect(() => {
@@ -48,17 +68,21 @@ export function FlavorFilterModal({ visible, onClose, onSave }: FlavorFilterModa
 		<Overlay>
 			<ModalBody>
 				<header>
-					<strong>Filtrar produtos por sabor</strong>
+					<strong>Filtrar produtos por categoria</strong>
 					<button type="button" onClick={onClose}>
 						<img src={closeIcon} alt="Ícone de fechar" />
 					</button>
 				</header>
 
 				<div className="info-container">
-					<small>Informe o sabor do produto</small>
+					<small>Informe a categoria do produto</small>
 					<div>
 						<span>✏️</span>
-						<Input type="text" placeholder='Sabor' onChange={handleChange} ></Input>
+						<select onChange={handleChange}>
+							{options.map((option) => (
+								<option value={option.value} key={option.value}>{option.label}</option>
+							))}
+						</select>
 					</div>
 				</div>
 

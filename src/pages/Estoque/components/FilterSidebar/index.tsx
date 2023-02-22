@@ -9,9 +9,12 @@ interface FilterSidebarProps {
 	closeSidebar: () => void;
 	openNameFilterModal: () => void;
 	openFlavorFilterModal: () => void;
+	openPriceFilterModal: () => void;
+	openBrandFilterModal: () => void;
+	openCategoryFilterModal: () => void;
 }
 
-export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterModal, openFlavorFilterModal }: FilterSidebarProps) {
+export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterModal, openFlavorFilterModal, openPriceFilterModal, openBrandFilterModal, openCategoryFilterModal }: FilterSidebarProps) {
 
 	return (
 		<Container visibility={sidebarClassName}>
@@ -28,9 +31,9 @@ export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterMo
 			<Content>
 				<FilterSidebarItem icon={faSignature} text='Nome' handleOpenFilterModal={openNameFilterModal}/>
 				<FilterSidebarItem icon={faGrinTongueSquint} text='Sabor' handleOpenFilterModal={openFlavorFilterModal} />
-				{/* <FilterSidebarItem icon={faDollarSign} text='Preço' />
-				<FilterSidebarItem icon={faCopyright} text='Marca' />
-				<FilterSidebarItem icon={faShapes} text='Categoria' /> */}
+				<FilterSidebarItem icon={faDollarSign} text='Preço' handleOpenFilterModal={openPriceFilterModal}/>
+				<FilterSidebarItem icon={faCopyright} text='Marca' handleOpenFilterModal={openBrandFilterModal}/>
+				<FilterSidebarItem icon={faShapes} text='Categoria' handleOpenFilterModal={openCategoryFilterModal}/>
 			</Content>
 		</Container>
 	);

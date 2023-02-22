@@ -3,23 +3,23 @@ import closeIcon from '../../../../../assets/images/close-icon.svg';
 
 import { Overlay, ModalBody, Actions, Input } from './styles';
 
-interface FlavorFilterModalProps {
+interface BrandFilterModalProps {
 	visible: boolean;
 	onClose: () => void;
 	onSave: (name: string) => void;
 }
 
-export function FlavorFilterModal({ visible, onClose, onSave }: FlavorFilterModalProps) {
-	const [name, setName] = useState('');
+export function BrandFilterModal({ visible, onClose, onSave }: BrandFilterModalProps) {
+	const [brand, setBrand] = useState('');
 
 	function handleFilter() {
-		onSave(name);
-		setName('');
+		onSave(brand);
+		setBrand('');
 		onClose();
 	}
 
 	function handleChange(event: any) {
-		setName(event.target.value);
+		setBrand(event.target.value);
 	}
 
 	useEffect(() => {
@@ -48,17 +48,17 @@ export function FlavorFilterModal({ visible, onClose, onSave }: FlavorFilterModa
 		<Overlay>
 			<ModalBody>
 				<header>
-					<strong>Filtrar produtos por sabor</strong>
+					<strong>Filtrar produtos por marca</strong>
 					<button type="button" onClick={onClose}>
 						<img src={closeIcon} alt="Ícone de fechar" />
 					</button>
 				</header>
 
 				<div className="info-container">
-					<small>Informe o sabor do produto</small>
+					<small>Informe a marca do produto</small>
 					<div>
 						<span>✏️</span>
-						<Input type="text" placeholder='Sabor' onChange={handleChange} ></Input>
+						<Input type="text" placeholder='Marca' onChange={handleChange} ></Input>
 					</div>
 				</div>
 
