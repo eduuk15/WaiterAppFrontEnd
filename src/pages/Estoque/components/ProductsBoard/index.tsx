@@ -1,4 +1,4 @@
-import { faFilter, faSort, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faPlus, faSort, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -9,6 +9,8 @@ import { ProductModal } from '../ProductModal';
 import { Board, FilterButton, ProductsContainer } from './styles';
 import closeIcon from '../../../../assets/images/close-icon.svg';
 import { Category } from '../../../../types/Category';
+import { NewProductModal } from '../NewProductModal';
+import { refreshPage } from '../../../../utils/refreshPage';
 
 interface ProductsBoardProps {
 	icon: string;
@@ -17,20 +19,15 @@ interface ProductsBoardProps {
 	openSidebar: () => void;
 	filter: string;
 	onClearFilters: () => void;
+	resetProducts: () => void;
+	categories: Category[];
 }
 
-export function ProductsBoard({ icon, title, products, openSidebar, filter, onClearFilters }: ProductsBoardProps) {
+export function ProductsBoard({ icon, title, products, openSidebar, filter, onClearFilters, resetProducts, categories }: ProductsBoardProps) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isNewProductModalVisible, setIsNewProductModalVisible] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState<null | Product>(null);
 	const [isLoading, setIsLoading] = useState(false);
-
-	const [categories, setCategories] = useState<Category[]>([]);
-	useEffect(() => {
-		api.get('/categories')
-			.then(({ data }) => {
-				setCategories(data);
-			});
-	});
 
 	function findCategoryName(categoryId: string) {
 		const foundCategory = categories.find((category) => category._id === categoryId);
@@ -51,6 +48,14 @@ export function ProductsBoard({ icon, title, products, openSidebar, filter, onCl
 		setSelectedProduct(null);
 	}
 
+	function handleOpenNewProductModal() {
+		setIsNewProductModalVisible(true);
+	}
+
+	function handleCloseNewProductModal() {
+		setIsNewProductModalVisible(false);
+	}
+
 	return (
 		<Board>
 			<ProductModal
@@ -59,6 +64,13 @@ export function ProductsBoard({ icon, title, products, openSidebar, filter, onCl
 				onClose={handleCloseModal}
 				isLoading={isLoading}
 				category={selectedProduct ? findCategoryName(selectedProduct.category) : ''}
+				resetProducts={resetProducts}
+			/>
+			<NewProductModal
+				visible={isNewProductModalVisible}
+				onClose={handleCloseNewProductModal}
+				resetProducts={resetProducts}
+				categories={categories}
 			/>
 			<header>
 				<div>
@@ -115,6 +127,13 @@ export function ProductsBoard({ icon, title, products, openSidebar, filter, onCl
 					)}
 				</div>
 				<div>
+					<button type="button" onClick={handleOpenNewProductModal}>
+						<FontAwesomeIcon
+							icon={faPlus}
+							color="#333"
+							size='lg'
+						/>
+					</button>
 					<button type="button" onClick={openSidebar}>
 						<FontAwesomeIcon
 							icon={faFilter}

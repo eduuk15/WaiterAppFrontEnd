@@ -9,18 +9,11 @@ interface CategoryFilterModalProps {
 	visible: boolean;
 	onClose: () => void;
 	onSave: (name: string) => void;
+	categories: Category[];
 }
 
-export function CategoryFilterModal({ visible, onClose, onSave }: CategoryFilterModalProps) {
-	const [categories, setCategories] = useState<Category[]>([]);
-	const [category, setCategory] = useState('');
-
-	useEffect(() => {
-		api.get('/categories')
-			.then(({ data }) => {
-				setCategories(data);
-			});
-	});
+export function CategoryFilterModal({ visible, onClose, onSave, categories }: CategoryFilterModalProps) {
+	const [category, setCategory] = useState(categories[0]._id);
 
 	const options = categories.map((category) => {
 		return {
@@ -29,16 +22,13 @@ export function CategoryFilterModal({ visible, onClose, onSave }: CategoryFilter
 		};
 	});
 
-
 	function handleFilter() {
 		onSave(category);
-		setCategory('');
+		setCategory(categories[0]._id);
 		onClose();
 	}
 
 	function handleChange(event: any) {
-		console.log('value', event.target.value);
-
 		setCategory(event.target.value);
 	}
 

@@ -39,9 +39,6 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 	const ddd = order.infoPedido.phone.slice(0, 2);
 	const formatedPhone = `${order.infoPedido.phone.slice(2, 7)}-${order.infoPedido.phone.slice(7, 11)}`;
 
-	console.log('entrega', order.entrega);
-
-
 	return (
 		<Overlay>
 			<ModalBody>

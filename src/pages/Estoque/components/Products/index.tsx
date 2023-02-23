@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import socketIo from 'socket.io-client';
+import { Category } from '../../../../types/Category';
 import { Price } from '../../../../types/Price';
 import { Product } from '../../../../types/Product';
 import { api } from '../../../../utils/api';
@@ -14,7 +15,9 @@ import { ProductsBoard } from '../ProductsBoard';
 import { Container } from './styles';
 
 export function Products() {
+	const [resetProducts, setResetProducts] = useState(false);
 	const [products, setProducts] = useState<Product[]>([]);
+	const [categories, setCategories] = useState<Category[]>([]);
 	const [filter, setFilter] = useState('all');
 	const [nameFilter, setNameFilter] = useState('');
 	const [flavorFilter, setFlavorFilter] = useState('');
@@ -79,16 +82,6 @@ export function Products() {
 		setIsCategoryFilterModalVisible(false);
 	}
 
-	useEffect(() => {
-		const socket = socketIo('http://localhost:3001', {
-			transports: ['websocket']
-		});
-
-		socket.on('products@new', (product) => {
-			setProducts(prevState => prevState.concat(product));
-		});
-	}, []);
-
 	function handleSaveNameFilter(name: string) {
 		setNameFilter(name);
 		setFilter('name');
@@ -100,6 +93,7 @@ export function Products() {
 			filter: false
 		});
 		setBrandFilter('');
+		setCategoryFilter('');
 	}
 
 	function handleSaveFlavorFilter(flavor: string) {
@@ -113,6 +107,7 @@ export function Products() {
 			filter: false
 		});
 		setBrandFilter('');
+		setCategoryFilter('');
 	}
 
 	function handleSavePriceFilter(price: Price) {
@@ -121,6 +116,7 @@ export function Products() {
 		setNameFilter('');
 		setFlavorFilter('');
 		setBrandFilter('');
+		setCategoryFilter('');
 	}
 
 	function handleSaveBrandFilter(brand: string) {
@@ -134,6 +130,7 @@ export function Products() {
 			equal: 0,
 			filter: false
 		});
+		setCategoryFilter('');
 	}
 
 	function handleSaveCategoryFilter(category: string) {
@@ -160,7 +157,9 @@ export function Products() {
 			filter: false
 		});
 		setBrandFilter('');
+		setCategoryFilter('');
 		setFilter('all');
+		setResetProducts(true);
 	}
 
 	useEffect(() => {
@@ -191,27 +190,42 @@ export function Products() {
 					});
 					setProducts(productsFilteredByBrand);
 				}
-				console.log('categoryFilter', categoryFilter);
-
 				if (categoryFilter !== '') {
 					const productsFilteredByCategory = data.filter((product: Product) => {
-						return product.category === brandFilter;
+
+						return product.category === categoryFilter;
 					});
 					setProducts(productsFilteredByCategory);
 				}
+				setResetProducts(false);
 			});
-	}, [nameFilter, flavorFilter, priceFilter, brandFilter, categoryFilter]);
+	}, [nameFilter, flavorFilter, priceFilter, brandFilter, categoryFilter, resetProducts, handleResetProducts]);
+
+	useEffect(() => {
+		api.get('/categories')
+			.then(({ data }) => {
+				setCategories(data);
+			});
+	});
+
+	function handleResetProducts() {
+		setResetProducts(true);
+	}
 
 	return (
 		<Container>
-			<ProductsBoard
-				icon="📦"
-				title="Produtos"
-				products={products}
-				openSidebar={handleOpenSidebar}
-				filter={filter}
-				onClearFilters={handleClearFilters}
-			/>
+			{categories.length > 0 && (
+				<ProductsBoard
+					icon="📦"
+					title="Produtos"
+					products={products}
+					openSidebar={handleOpenSidebar}
+					filter={filter}
+					onClearFilters={handleClearFilters}
+					resetProducts={handleResetProducts}
+					categories={categories}
+				/>
+			)}
 			<FilterSidebar
 				sidebarClassName={sidebarClassName}
 				closeSidebar={handleOpenSidebar}
@@ -241,11 +255,14 @@ export function Products() {
 				onClose={handleCloseBrandFilterModal}
 				onSave={handleSaveBrandFilter}
 			/>
-			<CategoryFilterModal
-				visible={isCategoryFilterModalVisible}
-				onClose={handleCloseCategoryFilterModal}
-				onSave={handleSaveCategoryFilter}
-			/>
+			{categories.length > 0 && (
+				<CategoryFilterModal
+					visible={isCategoryFilterModalVisible}
+					onClose={handleCloseCategoryFilterModal}
+					onSave={handleSaveCategoryFilter}
+					categories={categories}
+				/>
+			)}
 		</Container>
 	);
 }

@@ -4,6 +4,9 @@ import closeIcon from '../../../../assets/images/close-icon.svg';
 
 import { Overlay, ModalBody, ProductDetails, Actions } from './styles';
 import { Product } from '../../../../types/Product';
+import { api } from '../../../../utils/api';
+import { refreshPage } from '../../../../utils/refreshPage';
+import { toast } from 'react-toastify';
 
 interface ProductModalProps {
 	visible: boolean;
@@ -11,9 +14,10 @@ interface ProductModalProps {
 	onClose: () => void;
 	isLoading: boolean;
 	category: string;
+	resetProducts: () => void;
 }
 
-export function ProductModal({ visible, product, onClose, isLoading, category }: ProductModalProps) {
+export function ProductModal({ visible, product, onClose, isLoading, category, resetProducts }: ProductModalProps) {
 	useEffect(() => {
 		function handleKeyDown(event: KeyboardEvent) {
 			if (event.key == 'Escape') {
@@ -29,6 +33,13 @@ export function ProductModal({ visible, product, onClose, isLoading, category }:
 
 	if (!visible || !product) {
 		return null;
+	}
+
+	function handleRemoveProduct() {
+		api.delete(`/products/${product?._id}`);
+		toast.success('Pedido removido com sucesso!');
+		onClose();
+		resetProducts();
 	}
 
 
@@ -81,7 +92,7 @@ export function ProductModal({ visible, product, onClose, isLoading, category }:
 					<button
 						type="button"
 						className="secondary"
-						onClick={() => console.log('')}
+						onClick={handleRemoveProduct}
 					>
 						<span>🗑️</span>
 						<strong>Remover produto</strong>

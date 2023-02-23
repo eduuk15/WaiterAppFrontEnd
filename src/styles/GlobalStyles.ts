@@ -58,4 +58,10 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 1rem;
     color: #333;
   }
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+  		-webkit-appearance: none;
+  		margin: 0;
+	}
 `;
