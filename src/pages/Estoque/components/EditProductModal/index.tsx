@@ -10,20 +10,25 @@ import { Category } from '../../../../types/Category';
 import { toast } from 'react-toastify';
 import { refreshPage } from '../../../../utils/refreshPage';
 
-interface NewProductModalProps {
+interface EditProductModalProps {
 	visible: boolean;
 	onClose: () => void;
 	resetProducts: () => void;
 	categories: Category[];
+	selectedProduct: Product;
 }
 
-export function NewProductModal({ visible, onClose, resetProducts, categories }: NewProductModalProps) {
-	const [name, setName] = useState('');
-	const [description, setDescription] = useState('');
-	const [flavor, setFlavor] = useState('');
-	const [price, setPrice] = useState(0);
-	const [brand, setBrand] = useState('');
-	const [category, setCategory] = useState(categories[0]._id);
+export function EditProductModal({ visible, onClose, resetProducts, categories, selectedProduct }: EditProductModalProps) {
+	if (!selectedProduct) {
+		return null;
+	}
+
+	const [name, setName] = useState(selectedProduct.name);
+	const [description, setDescription] = useState(selectedProduct.description);
+	const [flavor, setFlavor] = useState(selectedProduct.flavor);
+	const [price, setPrice] = useState(selectedProduct.price);
+	const [brand, setBrand] = useState(selectedProduct.brand);
+	const [category, setCategory] = useState(selectedProduct.category);
 	const [image, setImage] = useState<any>('');
 
 	const selectOptions = categories.map((category) => {
@@ -73,7 +78,7 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 		setImage(event.target.value);
 	}
 
-	function handleAdd() {
+	function handleEdit() {
 		const form = new FormData();
 		if (name === '') {
 			toast.error('O nome é obrigatório');
@@ -116,8 +121,8 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 
 		const options = {
 			mode: 'no-cors',
-			method: 'POST',
-			url: 'http://localhost:3001/products',
+			method: 'PATCH',
+			url: `http://localhost:3001/products/${selectedProduct._id}`,
 			data: form
 		};
 
@@ -125,7 +130,7 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 			console.log(response.data);
 		}).catch(function (error) {
 			console.error(error);
-			toast.error('Erro ao adicionar pedido!');
+			toast.error('Erro ao editar pedido!');
 		});
 
 		setName('');
@@ -136,7 +141,7 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 		setCategory(categories[0]._id);
 		setImage('');
 		resetProducts();
-		toast.success('Pedido adicionado com sucesso!');
+		toast.success('Pedido editado com sucesso!');
 		onClose();
 	}
 
@@ -145,7 +150,7 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 		<Overlay>
 			<ModalBody>
 				<header>
-					<strong>Adicionar novo produto</strong>
+					<strong>Editar produto</strong>
 					<button type="button" onClick={onClose}>
 						<img src={closeIcon} alt="Ícone de fechar" />
 					</button>
@@ -154,37 +159,37 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 				<div className="info-container">
 					<small>Nome</small>
 					<div>
-						<Input type="text" onChange={handleChangeName} required={true}></Input>
+						<Input type="text" onChange={handleChangeName} required={true} defaultValue={selectedProduct.name}></Input>
 					</div>
 				</div>
 				<div className="info-container">
 					<small>Descrição</small>
 					<div>
-						<Input type="text" onChange={handleChangeDescription} required={true}></Input>
+						<Input type="text" onChange={handleChangeDescription} required={true} defaultValue={selectedProduct.description}></Input>
 					</div>
 				</div>
 				<div className="info-container">
 					<small>Sabor</small>
 					<div>
-						<Input type="text" onChange={handleChangeFlavor} required={true}></Input>
+						<Input type="text" onChange={handleChangeFlavor} required={true} defaultValue={selectedProduct.flavor}></Input>
 					</div>
 				</div>
 				<div className="info-container">
 					<small>Preço</small>
 					<div>
-						<Input type="number" onChange={handleChangePrice} required={true} onWheel={(e) => e.target.blur()}></Input>
+						<Input type="number" onChange={handleChangePrice} required={true} onWheel={(e) => e.target.blur()} defaultValue={selectedProduct.price}></Input>
 					</div>
 				</div>
 				<div className="info-container">
 					<small>Marca</small>
 					<div>
-						<Input type="text" onChange={handleChangeBrand} required={true}></Input>
+						<Input type="text" onChange={handleChangeBrand} required={true} defaultValue={selectedProduct.brand}></Input>
 					</div>
 				</div>
 				<div className="info-container">
 					<small>Categoria</small>
 					<div>
-						<Select onChange={handleChangeCategory} required={true}>
+						<Select onChange={handleChangeCategory} required={true} defaultValue={selectedProduct.category}>
 							{selectOptions.map((option) => (
 								<option value={option.value} key={option.value}>{option.label}</option>
 							))}
@@ -202,10 +207,10 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 					<button
 						type="button"
 						className="primary"
-						onClick={handleAdd}
+						onClick={handleEdit}
 					>
-						<span>➕</span>
-						<strong>Adicionar produto</strong>
+						<span>✏️</span>
+						<strong>Editar produto</strong>
 					</button>
 				</Actions>
 			</ModalBody>

@@ -15,9 +15,10 @@ interface ProductModalProps {
 	isLoading: boolean;
 	category: string;
 	resetProducts: () => void;
+	onOpenEditProductModal: () => void;
 }
 
-export function ProductModal({ visible, product, onClose, isLoading, category, resetProducts }: ProductModalProps) {
+export function ProductModal({ visible, product, onClose, isLoading, category, resetProducts, onOpenEditProductModal }: ProductModalProps) {
 	useEffect(() => {
 		function handleKeyDown(event: KeyboardEvent) {
 			if (event.key == 'Escape') {
@@ -83,7 +84,7 @@ export function ProductModal({ visible, product, onClose, isLoading, category, r
 						type="button"
 						className="primary"
 						disabled={isLoading}
-						onClick={() => console.log('')}
+						onClick={onOpenEditProductModal}
 					>
 						<span>✏️</span>
 						<strong>Editar produto</strong>

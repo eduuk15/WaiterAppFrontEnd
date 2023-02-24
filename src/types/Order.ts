@@ -7,7 +7,7 @@ export interface Order {
 		product: {
 			name: string;
 			imagePath: string;
-			price: number;
+			price: string;
 			flavor: string;
 			brand: string;
 		};

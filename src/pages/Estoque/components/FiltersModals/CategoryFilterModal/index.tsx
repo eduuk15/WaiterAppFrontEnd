@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import closeIcon from '../../../../../assets/images/close-icon.svg';
 import { api } from '../../../../../utils/api';
 
-import { Overlay, ModalBody, Actions, Input } from './styles';
+import { Overlay, ModalBody, Actions, Select } from './styles';
 import { Category } from '../../../../../types/Category';
 
 interface CategoryFilterModalProps {
@@ -67,12 +67,11 @@ export function CategoryFilterModal({ visible, onClose, onSave, categories }: Ca
 				<div className="info-container">
 					<small>Informe a categoria do produto</small>
 					<div>
-						<span>✏️</span>
-						<select onChange={handleChange}>
+						<Select onChange={handleChange}>
 							{options.map((option) => (
 								<option value={option.value} key={option.value}>{option.label}</option>
 							))}
-						</select>
+						</Select>
 					</div>
 				</div>
 

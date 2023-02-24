@@ -68,7 +68,7 @@ export const ModalBody = styled.div`
 	}
 `;
 
-export const Input = styled.input`
+export const Select = styled.select`
 	background: #FFFFFF;
 	border: 1px solid rgba(204, 204, 204, 0.5);
 	border-radius: 8px;

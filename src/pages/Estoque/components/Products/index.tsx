@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { Toast } from 'react-toastify/dist/components';
 import socketIo from 'socket.io-client';
 import { Category } from '../../../../types/Category';
 import { Price } from '../../../../types/Price';
@@ -12,6 +14,7 @@ import { NameFilterModal } from '../FiltersModals/NameFilterModal';
 import { PriceFilterModal } from '../FiltersModals/PriceFilterModal';
 
 import { ProductsBoard } from '../ProductsBoard';
+import { SortSidebar } from '../SortSidebar';
 import { Container } from './styles';
 
 export function Products() {
@@ -30,16 +33,24 @@ export function Products() {
 	const [categoryFilter, setCategoryFilter] = useState('');
 	const [brandFilter, setBrandFilter] = useState('');
 	const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+	const [isSortSidebarVisible, setIsSortSidebarVisible] = useState(false);
 	const [sidebarClassName, setSidebarClassName] = useState('hide');
+	const [sortSidebarClassName, setSortSidebarClassName] = useState('hide');
 	const [isNameFilterModalVisible, setIsNameFilterModalVisible] = useState(false);
 	const [isFlavorFilterModalVisible, setIsFlavorFilterModalVisible] = useState(false);
 	const [isPriceFilterModalVisible, setIsPriceFilterModalVisible] = useState(false);
 	const [isBrandFilterModalVisible, setIsBrandFilterModalVisible] = useState(false);
 	const [isCategoryFilterModalVisible, setIsCategoryFilterModalVisible] = useState(false);
+	const [sort, setSort] = useState('default');
 
 	function handleOpenSidebar() {
 		setIsSidebarVisible(!isSidebarVisible);
 		setSidebarClassName(sidebarClassName === 'hide' ? 'show' : 'hide');
+	}
+
+	function handleOpenSortSidebar() {
+		setIsSortSidebarVisible(!isSortSidebarVisible);
+		setSortSidebarClassName(sortSidebarClassName === 'hide' ? 'show' : 'hide');
 	}
 
 	function handleOpenNameFilterModal() {
@@ -162,10 +173,15 @@ export function Products() {
 		setResetProducts(true);
 	}
 
+	function handleClearSort() {
+		setSort('default');
+		setResetProducts(true);
+	}
+
 	useEffect(() => {
 		api.get('/products')
 			.then(({ data }) => {
-				setProducts(data);
+				setProducts(handleSort(data));
 				if (nameFilter !== '') {
 					const productsFilteredByName = data.filter((product: Product) => {
 						return product.name.includes(nameFilter);
@@ -180,7 +196,7 @@ export function Products() {
 				}
 				if (priceFilter.filter) {
 					const productsFilteredByPrice = data.filter((product: Product) => {
-						return product.price > priceFilter.bigger && product.price < priceFilter.smaller;
+						return parseFloat(product.price) > priceFilter.bigger && parseFloat(product.price) < priceFilter.smaller;
 					});
 					setProducts(productsFilteredByPrice);
 				}
@@ -192,14 +208,14 @@ export function Products() {
 				}
 				if (categoryFilter !== '') {
 					const productsFilteredByCategory = data.filter((product: Product) => {
-
 						return product.category === categoryFilter;
 					});
-					setProducts(productsFilteredByCategory);
+
+					setProducts(handleSort(productsFilteredByCategory));
 				}
 				setResetProducts(false);
 			});
-	}, [nameFilter, flavorFilter, priceFilter, brandFilter, categoryFilter, resetProducts, handleResetProducts]);
+	}, [nameFilter, flavorFilter, priceFilter, brandFilter, categoryFilter, resetProducts, handleResetProducts, sort]);
 
 	useEffect(() => {
 		api.get('/categories')
@@ -212,6 +228,39 @@ export function Products() {
 		setResetProducts(true);
 	}
 
+	function handleSort(products: Product[]) {
+		if (sort === 'cheap') {
+			return products.sort(function(a, b){
+				if (parseFloat(a.price) > parseFloat(b.price)) return 1;
+				if (parseFloat(a.price) < parseFloat(b.price)) return -1;
+				return 0;
+			});
+		}
+		if (sort === 'expensive') {
+			return products.sort(function(a, b){
+				if (parseFloat(a.price) > parseFloat(b.price)) return -1;
+				if (parseFloat(a.price) < parseFloat(b.price)) return 1;
+				return 0;
+			});
+		}
+		if (sort === 'az') {
+			return products.sort(function(a, b){
+				if (a.name > b.name) return 1;
+				if (a.name < b.name) return -1;
+				return 0;
+			});
+		}
+		if (sort === 'za') {
+			return products.sort(function(a, b){
+				if (a.name > b.name) return -1;
+				if (a.name < b.name) return 1;
+				return 0;
+			});
+		}
+
+		return products;
+	}
+
 	return (
 		<Container>
 			{categories.length > 0 && (
@@ -220,10 +269,13 @@ export function Products() {
 					title="Produtos"
 					products={products}
 					openSidebar={handleOpenSidebar}
+					openSortSidebar={handleOpenSortSidebar}
 					filter={filter}
+					sort={sort}
 					onClearFilters={handleClearFilters}
 					resetProducts={handleResetProducts}
 					categories={categories}
+					onClearSort={handleClearSort}
 				/>
 			)}
 			<FilterSidebar
@@ -234,6 +286,15 @@ export function Products() {
 				openPriceFilterModal={handleOpenPriceFilterModal}
 				openBrandFilterModal={handleOpenBrandFilterModal}
 				openCategoryFilterModal={handleOpenCategoryFilterModal}
+			/>
+			<SortSidebar
+				sidebarClassName={sortSidebarClassName}
+				closeSidebar={handleOpenSortSidebar}
+				setSort={setSort}
+				// handleSortCheap={handleSort}
+				// handleSortExpensive={handleSort}
+				// handleSortAZ={handleSort}
+				// handleSortZA={handleSort}
 			/>
 			<NameFilterModal
 				visible={isNameFilterModalVisible}

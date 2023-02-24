@@ -33,7 +33,7 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 	}
 
 	const total = order.products.reduce((total, { product, quantity }) => {
-		return total + (product.price * quantity);
+		return total + (parseFloat(product.price) * quantity);
 	}, 0);
 
 	const ddd = order.infoPedido.phone.slice(0, 2);
@@ -105,7 +105,7 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 								<div className="product-details">
 									<strong>{product.name}</strong>
 									<strong>{product.flavor}</strong>
-									<span>{formatCurrency(product.price)}</span>
+									<span>{formatCurrency(parseFloat(product.price))}</span>
 								</div>
 							</div>
 						))}
