@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import closeIcon from '../../../../../assets/images/close-icon.svg';
 
 import { Overlay, ModalBody, Actions, Input } from './styles';
@@ -7,15 +8,18 @@ interface BrandFilterModalProps {
 	visible: boolean;
 	onClose: () => void;
 	onSave: (name: string) => void;
+	closeSidebar: () => void;
 }
 
-export function BrandFilterModal({ visible, onClose, onSave }: BrandFilterModalProps) {
+export function BrandFilterModal({ visible, onClose, onSave, closeSidebar }: BrandFilterModalProps) {
 	const [brand, setBrand] = useState('');
 
 	function handleFilter() {
 		onSave(brand);
 		setBrand('');
 		onClose();
+		closeSidebar();
+		toast.success('Produtos filtrados com sucesso!');
 	}
 
 	function handleChange(event: any) {

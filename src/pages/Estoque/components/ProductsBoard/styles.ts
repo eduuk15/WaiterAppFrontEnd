@@ -76,3 +76,9 @@ export const FilterButton = styled.div`
 		background-color: #FFF;
 	}
 `;
+
+export const Actions = styled.div`
+	button:hover {
+		color: #2d96ff;
+	}
+`;

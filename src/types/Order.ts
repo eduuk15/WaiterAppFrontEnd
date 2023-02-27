@@ -3,13 +3,15 @@ export interface Order {
 	status: 'WAITING' | 'DONE';
 	products: {
 		_id: string;
-		quantity: number;
 		product: {
+			_id: string;
+			description: string;
 			name: string;
 			imagePath: string;
 			price: string;
 			flavor: string;
 			brand: string;
+			category: string;
 		};
 	}[];
 	entrega: boolean;

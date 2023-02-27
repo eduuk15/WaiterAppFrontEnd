@@ -132,7 +132,7 @@ export const OrderDetails = styled.div`
 			}
 
 			.product-details {
-				margin-left: 4px;
+				margin-left: 16px;
 
 				strong {
 					display: block;

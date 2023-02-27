@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { formatCurrency } from '../../../../utils/formatCurrency';
 import closeIcon from '../../../../assets/images/close-icon.svg';
 
-import { Overlay, ModalBody, ProductDetails, Actions } from './styles';
+import { Overlay, ModalBody, Actions } from './styles';
 import { Product } from '../../../../types/Product';
 import { api } from '../../../../utils/api';
-import { refreshPage } from '../../../../utils/refreshPage';
 import { toast } from 'react-toastify';
+import { Order } from '../../../../types/Order';
 
 interface ProductModalProps {
 	visible: boolean;
@@ -37,10 +37,25 @@ export function ProductModal({ visible, product, onClose, isLoading, category, r
 	}
 
 	function handleRemoveProduct() {
-		api.delete(`/products/${product?._id}`);
-		toast.success('Pedido removido com sucesso!');
-		onClose();
-		resetProducts();
+		api.get('/orders')
+			.then(({ data }) => {
+				const ordersProducts: Product[] = [];
+				data.forEach((order: Order) => {
+					order.products.forEach((product) => {
+						ordersProducts.push(product.product);
+					});
+				});
+				const ordersWithSelectedProduct = ordersProducts.filter((orderProduct: Product) => orderProduct._id === product?._id);
+
+				if (ordersWithSelectedProduct.length <= 0) {
+					api.delete(`/products/${product?._id}`);
+					toast.success('Produto removido com sucesso!');
+					onClose();
+					resetProducts();
+				} else {
+					toast.error('Esse produto atualmente está vinculado a um pedido! Não é possível removê-lo...');
+				}
+			});
 	}
 
 
@@ -63,7 +78,7 @@ export function ProductModal({ visible, product, onClose, isLoading, category, r
 				<div className="info-container">
 					<small>Preço</small>
 					<div>
-						<strong>{formatCurrency(product.price)}</strong>
+						<strong>{formatCurrency(parseFloat(product.price))}</strong>
 					</div>
 				</div>
 				<div className="info-container">

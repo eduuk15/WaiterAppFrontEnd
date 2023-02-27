@@ -14,11 +14,14 @@ export function Sidebar({ sidebarClassName, closeSidebar }: SidebarProps) {
 	return (
 		<Container visibility={sidebarClassName}>
 			<button type="button" onClick={closeSidebar} >
-				<FontAwesomeIcon
-					icon={faXmark}
-					color="#FFF"
-					size='2x'
-				/>
+				<div className="titleSidebar">
+					<h1>Menu</h1>
+					<FontAwesomeIcon
+						icon={faXmark}
+						color="#FFF"
+						size='2x'
+					/>
+				</div>
 			</button>
 			<Content>
 				<SidebarItem icon={faDolly} text='Pedidos' route='pedidos' />

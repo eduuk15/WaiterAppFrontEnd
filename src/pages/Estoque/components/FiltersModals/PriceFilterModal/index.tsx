@@ -10,9 +10,10 @@ interface PriceFilterModalProps {
 	visible: boolean;
 	onClose: () => void;
 	onSave: (price: Price) => void;
+	closeSidebar: () => void;
 }
 
-export function PriceFilterModal({ visible, onClose, onSave }: PriceFilterModalProps) {
+export function PriceFilterModal({ visible, onClose, onSave, closeSidebar }: PriceFilterModalProps) {
 	const [bigger, setBigger] = useState(0);
 	const [smaller, setSmaller] = useState(0);
 	const [equal, setEqual] = useState(0);
@@ -23,6 +24,8 @@ export function PriceFilterModal({ visible, onClose, onSave }: PriceFilterModalP
 		setSmaller(0);
 		setEqual(0);
 		onClose();
+		closeSidebar();
+		toast.success('Produtos filtrados com sucesso!');
 	}
 
 	function handleChangeBigger(event: any) {

@@ -25,12 +25,26 @@ export const Container = styled.div`
   	-moz-transition: ${(props: Props) => props.visibility === 'hide' ? 'opacity 0.5s linear' : 'opacity 0.5s linear'};
   	-o-transition: ${(props: Props) => props.visibility === 'hide' ? 'opacity 0.5s linear' : 'opacity 0.5s linear'};
 
+	.titleSidebar {
+		padding: 10px 10px 0px 10px;
+		width: 350px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		float: right;
+		color: #FFF;
+	}
+
 	button {
-		margin: 10px 10px;
-		float: left;
+		all: unset;
+		cursor: pointer;
 	}
 `;
 
 export const Content = styled.div`
- 	margin-top: 80px;
+ 	margin-top: 30px;
+
+	button {
+		margin: 10px 10px;
+	}
 `;

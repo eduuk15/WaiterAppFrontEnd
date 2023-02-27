@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import closeIcon from '../../../../../assets/images/close-icon.svg';
 
 import { Overlay, ModalBody, Actions, Input } from './styles';
@@ -7,15 +8,18 @@ interface NameFilterModalProps {
 	visible: boolean;
 	onClose: () => void;
 	onSave: (name: string) => void;
+	closeSidebar: () => void;
 }
 
-export function NameFilterModal({ visible, onClose, onSave }: NameFilterModalProps) {
+export function NameFilterModal({ visible, onClose, onSave, closeSidebar }: NameFilterModalProps) {
 	const [name, setName] = useState('');
 
 	function handleFilter() {
 		onSave(name);
 		setName('');
 		onClose();
+		closeSidebar();
+		toast.success('Produtos filtrados com sucesso!');
 	}
 
 	function handleChange(event: any) {

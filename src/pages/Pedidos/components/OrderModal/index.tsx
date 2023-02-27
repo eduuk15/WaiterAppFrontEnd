@@ -32,8 +32,8 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 		return null;
 	}
 
-	const total = order.products.reduce((total, { product, quantity }) => {
-		return total + (parseFloat(product.price) * quantity);
+	const total = order.products.reduce((total, { product }) => {
+		return total + (parseFloat(product.price));
 	}, 0);
 
 	const ddd = order.infoPedido.phone.slice(0, 2);
@@ -91,7 +91,7 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 					<strong>Itens</strong>
 
 					<div className="order-items">
-						{order.products.map(({_id, product, quantity}) => (
+						{order.products.map(({_id, product}) => (
 							<div className="item" key={_id}>
 								<img
 									src={`http://localhost:3001/uploads/${product.imagePath}`}
@@ -99,8 +99,6 @@ export function OrderModal({ visible, order, onClose, onCancelOrder, isLoading, 
 									width="93.22"
 									height="47.46"
 								/>
-
-								<span className="quantity">{quantity}x</span>
 
 								<div className="product-details">
 									<strong>{product.name}</strong>

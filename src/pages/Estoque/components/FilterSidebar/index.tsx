@@ -29,11 +29,11 @@ export function FilterSidebar({ sidebarClassName, closeSidebar, openNameFilterMo
 				</div>
 			</button>
 			<Content>
-				<FilterSidebarItem icon={faSignature} text='Nome' handleOpenFilterModal={openNameFilterModal}/>
+				<FilterSidebarItem icon={faSignature} text='Nome' handleOpenFilterModal={openNameFilterModal} />
 				<FilterSidebarItem icon={faGrinTongueSquint} text='Sabor' handleOpenFilterModal={openFlavorFilterModal} />
-				<FilterSidebarItem icon={faDollarSign} text='Preço' handleOpenFilterModal={openPriceFilterModal}/>
-				<FilterSidebarItem icon={faCopyright} text='Marca' handleOpenFilterModal={openBrandFilterModal}/>
-				<FilterSidebarItem icon={faShapes} text='Categoria' handleOpenFilterModal={openCategoryFilterModal}/>
+				<FilterSidebarItem icon={faDollarSign} text='Preço' handleOpenFilterModal={openPriceFilterModal} />
+				<FilterSidebarItem icon={faCopyright} text='Marca' handleOpenFilterModal={openBrandFilterModal} />
+				<FilterSidebarItem icon={faShapes} text='Categoria' handleOpenFilterModal={openCategoryFilterModal} />
 			</Content>
 		</Container>
 	);

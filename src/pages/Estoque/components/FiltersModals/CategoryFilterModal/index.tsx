@@ -4,6 +4,7 @@ import { api } from '../../../../../utils/api';
 
 import { Overlay, ModalBody, Actions, Select } from './styles';
 import { Category } from '../../../../../types/Category';
+import { toast } from 'react-toastify';
 
 interface CategoryFilterModalProps {
 	visible: boolean;
@@ -26,6 +27,7 @@ export function CategoryFilterModal({ visible, onClose, onSave, categories }: Ca
 		onSave(category);
 		setCategory(categories[0]._id);
 		onClose();
+		toast.success('Produtos filtrados com sucesso!');
 	}
 
 	function handleChange(event: any) {

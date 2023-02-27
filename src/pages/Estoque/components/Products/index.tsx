@@ -171,11 +171,13 @@ export function Products() {
 		setCategoryFilter('');
 		setFilter('all');
 		setResetProducts(true);
+		toast.success('Filtro removido com sucesso!');
 	}
 
 	function handleClearSort() {
 		setSort('default');
 		setResetProducts(true);
+		toast.success('Ordenação removida com sucesso!');
 	}
 
 	useEffect(() => {
@@ -300,21 +302,25 @@ export function Products() {
 				visible={isNameFilterModalVisible}
 				onClose={handleCloseNameFilterModal}
 				onSave={handleSaveNameFilter}
+				closeSidebar={handleOpenSidebar}
 			/>
 			<FlavorFilterModal
 				visible={isFlavorFilterModalVisible}
 				onClose={handleCloseFlavorFilterModal}
 				onSave={handleSaveFlavorFilter}
+				closeSidebar={handleOpenSidebar}
 			/>
 			<PriceFilterModal
 				visible={isPriceFilterModalVisible}
 				onClose={handleClosePriceFilterModal}
 				onSave={handleSavePriceFilter}
+				closeSidebar={handleOpenSidebar}
 			/>
 			<BrandFilterModal
 				visible={isBrandFilterModalVisible}
 				onClose={handleCloseBrandFilterModal}
 				onSave={handleSaveBrandFilter}
+				closeSidebar={handleOpenSidebar}
 			/>
 			{categories.length > 0 && (
 				<CategoryFilterModal

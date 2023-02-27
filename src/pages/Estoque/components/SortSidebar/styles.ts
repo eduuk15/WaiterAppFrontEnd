@@ -25,7 +25,7 @@ export const Container = styled.div`
   	-moz-transition: ${(props: Props) => props.visibility === 'hide' ? 'opacity 0.5s linear' : 'opacity 0.5s linear'};
   	-o-transition: ${(props: Props) => props.visibility === 'hide' ? 'opacity 0.5s linear' : 'opacity 0.5s linear'};
 
-	.filtros {
+	.title {
 		padding: 10px 10px 0px 10px;
 		width: 350px;
 		display: flex;

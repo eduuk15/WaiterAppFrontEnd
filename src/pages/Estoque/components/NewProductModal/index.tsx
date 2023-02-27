@@ -136,7 +136,7 @@ export function NewProductModal({ visible, onClose, resetProducts, categories }:
 		setCategory(categories[0]._id);
 		setImage('');
 		resetProducts();
-		toast.success('Pedido adicionado com sucesso!');
+		toast.success('Produto adicionado com sucesso!');
 		onClose();
 	}
 

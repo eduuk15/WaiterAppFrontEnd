@@ -6,7 +6,7 @@ import { Product } from '../../../../types/Product';
 import { api } from '../../../../utils/api';
 import { formatCurrency } from '../../../../utils/formatCurrency';
 import { ProductModal } from '../ProductModal';
-import { Board, FilterButton, ProductsContainer } from './styles';
+import { Actions, Board, FilterButton, ProductsContainer } from './styles';
 import closeIcon from '../../../../assets/images/close-icon.svg';
 import { Category } from '../../../../types/Category';
 import { NewProductModal } from '../NewProductModal';
@@ -184,29 +184,26 @@ export function ProductsBoard({ icon, title, products, openSidebar, filter, onCl
 						</FilterButton>
 					)}
 				</div>
-				<div>
-					<button type="button" onClick={handleOpenNewProductModal}>
+				<Actions>
+					<button type="button" onClick={handleOpenNewProductModal} title="Adicionar novo pedido">
 						<FontAwesomeIcon
 							icon={faPlus}
-							color="#333"
 							size='lg'
 						/>
 					</button>
-					<button type="button" onClick={openSidebar}>
+					<button type="button" onClick={openSidebar} title="Filtrar">
 						<FontAwesomeIcon
 							icon={faFilter}
-							color="#333"
 							size='lg'
 						/>
 					</button>
-					<button type="button" onClick={openSortSidebar}>
+					<button type="button" onClick={openSortSidebar} title="Ordenar">
 						<FontAwesomeIcon
 							icon={faSort}
-							color="#333"
 							size='lg'
 						/>
 					</button>
-				</div>
+				</Actions>
 			</header>
 
 			{products.length > 0 && (

@@ -7,13 +7,15 @@ interface SortSidebarItemProps {
 	text: string;
 	setSort: (sort: string) => void;
 	sort: string;
+	closeSidebar: () => void;
 }
 
-export function SortSidebarItem({ icon, text, sort, setSort }: SortSidebarItemProps) {
+export function SortSidebarItem({ icon, text, sort, setSort, closeSidebar }: SortSidebarItemProps) {
 	return (
 		<Container onClick={() => {
 			setSort(sort);
 			toast.success('Produtos ordenados com sucesso!');
+			closeSidebar();
 		}}>
 			<button>
 				<FontAwesomeIcon
